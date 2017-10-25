@@ -1,0 +1,62 @@
+buildscript {
+  repositories {
+    mavenLocal()
+    jcenter()
+  }
+  dependencies {
+    classpath 'io.spring.gradle:dependency-management-plugin:1.0.3.RELEASE'
+  }
+}
+plugins {
+    id 'org.springframework.boot' version '1.5.7.RELEASE'
+}
+
+apply plugin: 'eclipse'
+apply plugin: 'java'
+apply plugin: 'io.spring.dependency-management'
+
+
+group = 'com.foilen'
+version = System.getenv('VERSION')?:'master-SNAPSHOT'
+
+repositories {
+  mavenLocal()
+  jcenter()
+  mavenCentral()
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+dependencyManagement {
+  imports {
+    mavenBom 'io.spring.platform:platform-bom:Brussels-SR5'
+  }
+}
+
+eclipse {
+  classpath {
+    downloadSources = true
+    downloadJavadoc = true
+  }
+}
+
+dependencies {
+
+  // Spring
+  compile "org.springframework:spring-context"
+
+  // Misc
+  compile "commons-validator:commons-validator:$commonsValidatorVersion"
+
+  // Test
+  testCompile 'junit:junit'
+  testCompile "org.springframework:spring-test"
+  testCompile "org.springframework.boot:spring-boot-starter-test"
+}
+
+springBoot {
+  mainClass = 'com.foilen.replacephpserializesafe.ReplaceApp'
+}
+
+task wrapper(type: Wrapper) { gradleVersion = '4.1' }
