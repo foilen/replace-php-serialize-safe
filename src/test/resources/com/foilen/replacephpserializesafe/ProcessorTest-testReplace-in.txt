@@ -1,0 +1,10 @@
+Nothing: This is normal text
+Simple Text: Some text and this link http://www.example.com/something that goes somewhere
+phpSerialized text: s:36:"AAAhttp://www.example.com/perfectBBB";
+phpSerialized text: s:73:"AAAhttp://www.example.com/perfectBBB AAAhttp://www.example.com/perfectBBB";
+phpSerialized array: a:2:{i:0;s:3:"one";i:1;s:32:"here http://www.example.com/nice";}
+phpSerialized embedded: O:5:"first":2:{s:7:"details";O:6:"second":2:{s:4:"text";s:8:"The link";s:3:"url";s:36:"AAAhttp://www.example.com/perfectBBB";}s:7:"another";N;}
+phpSerialized many: a:3:{i:0;O:5:"first":2:{s:7:"details";O:6:"second":2:{s:4:"text";s:8:"The link";s:3:"url";s:36:"AAAhttp://www.example.com/perfectBBB";}s:7:"another";N;}i:1;r:2;i:2;s:71:"Yep again a link http://www.example.com/lala to the best place on earth";}
+In SQL: INSERT INTO `wp2a_icl_strings` VALUES (21515,'fr','admin_texts_et_divi','[et_divi]divi_logo','http://www.example.com/wp-content/uploads/2017/07/home.png',NULL,NULL,'LINE',NULL,0,'','f892a7ba');
+In SQL phpSerialized: INSERT INTO `wp2a_icl_translation_status` VALUES (3,310,1,1,0,'fjkds83f8fdshq','local',1,'a:3:{s:3:\"url\";s:33:\"http://www.example.com?page_id=38\";s:8:\"contents\";a:4:{s:11:\"original_id\";a:2:{s:9:\"translate\";i:0;s:4:\"data\";i:38;}s:5:\"title\";a:3:{s:9:\"translate\";i:1;s:4:\"data\";s:12:\"QWNjdWVpbA==\";s:6:\"format\";s:6:\"base64\";}s:4:\"body\";a:3:{s:9:\"translate\";i:0;s:4:\"data\";s:3:\"abc\";s:6:\"format\";s:6:\"base64\";}s:7:\"excerpt\";a:3:{s:9:\"translate\";i:1;s:4:\"data\";s:0:\"\";s:6:\"format\";s:6:\"base64\";}}s:4:\"type\";s:4:\"post\";}','2017-10-13 14:49:45',0,NULL);
+phpSerialized text with bogus other text: s:44:"AAAs:3:"AAAhttp://www.example.com/perfectBBB";

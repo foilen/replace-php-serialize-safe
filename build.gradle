@@ -3,17 +3,13 @@ buildscript {
     mavenLocal()
     jcenter()
   }
-  dependencies {
-    classpath 'io.spring.gradle:dependency-management-plugin:1.0.3.RELEASE'
-  }
 }
 plugins {
-    id 'org.springframework.boot' version '1.5.7.RELEASE'
+    id 'org.springframework.boot' version '1.5.8.RELEASE'
 }
 
 apply plugin: 'eclipse'
 apply plugin: 'java'
-apply plugin: 'io.spring.dependency-management'
 
 
 group = 'com.foilen'
@@ -28,12 +24,6 @@ repositories {
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
-dependencyManagement {
-  imports {
-    mavenBom 'io.spring.platform:platform-bom:Brussels-SR5'
-  }
-}
-
 eclipse {
   classpath {
     downloadSources = true
@@ -47,7 +37,11 @@ dependencies {
   compile "org.springframework:spring-context"
 
   // Misc
-  compile "commons-validator:commons-validator:$commonsValidatorVersion"
+  compile "com.fasterxml.jackson.core:jackson-databind"
+  compile "com.foilen:jl-smalltools:$smalltoolsVersion"
+  compile "com.google.guava:guava:$guavaVersion"
+  compile "org.apache.commons:commons-lang3:$commonsLang3Version"
+  compile "org.slf4j:slf4j-api:$slf4jVersion"
 
   // Test
   testCompile 'junit:junit'
