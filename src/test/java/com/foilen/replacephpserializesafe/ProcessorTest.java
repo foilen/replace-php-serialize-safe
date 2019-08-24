@@ -114,7 +114,7 @@ public class ProcessorTest {
 
         StringBuilder in = new StringBuilder();
         StringBuilder out = new StringBuilder();
-        for (int i = 0; i < 3000; ++i) {
+        for (int i = 0; i < 5000; ++i) {
             in.append("phpSerialized text: s:73:\"AAAhttp://www.example.com/perfectBBB AAAhttp://www.example.com/perfectBBB\";");
             out.append("phpSerialized text: s:81:\"AAAhttp://newSite.example.com/perfectBBB AAAhttp://newSite.example.com/perfectBBB\";");
         }

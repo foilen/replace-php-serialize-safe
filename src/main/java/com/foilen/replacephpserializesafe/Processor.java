@@ -9,6 +9,8 @@
  */
 package com.foilen.replacephpserializesafe;
 
+import com.foilen.smalltools.tuple.Tuple2;
+
 public class Processor {
 
     public static String replace(String line, String search, String replace) {
@@ -17,27 +19,33 @@ public class Processor {
         }
 
         // Search for text
-        String current = line;
-        String next = null;
-
-        while (!(next = replacedOne(current, search, replace)).equals(current)) {
-            current = next;
+        Tuple2<Integer, String> result = new Tuple2<>(0, line);
+        replacedOne(line, result, search, replace);
+        line = result.getB();
+        while (result.getA() != -1) {
+            replacedOne(line, result, search, replace);
+            line = result.getB();
         }
 
-        return current;
+        return line;
     }
 
-    private static String replacedOne(String line, String search, String replace) {
+    private static void replacedOne(String line, Tuple2<Integer, String> fromIndexAndFinalLine, String search, String replace) {
+
         // Find the text if present
-        int searchPosition = line.indexOf(search);
+        int searchPosition = line.indexOf(search, fromIndexAndFinalLine.getA());
         if (searchPosition == -1) {
-            return line;
+            fromIndexAndFinalLine.setA(searchPosition);
+            fromIndexAndFinalLine.setB(line);
+            return;
         }
 
         // If beginning or end, it is not serialized
         int searchLen = search.length();
         if (searchPosition == 0 || searchPosition + searchLen == line.length()) {
-            return replaceOne(line, searchPosition, replace, searchLen);
+            fromIndexAndFinalLine.setA(searchPosition);
+            fromIndexAndFinalLine.setB(replaceOne(line, searchPosition, replace, searchLen));
+            return;
         }
 
         // Search serialized string before
@@ -88,7 +96,9 @@ public class Processor {
                                 replacedLine.append(line.substring(colonAndQuotePos, searchPosition));
                                 replacedLine.append(replace);
                                 replacedLine.append(line.substring(searchPosition + searchLen));
-                                return replacedLine.toString();
+                                fromIndexAndFinalLine.setA(searchPosition);
+                                fromIndexAndFinalLine.setB(replacedLine.toString());
+                                return;
                             }
                         }
                     }
@@ -97,7 +107,8 @@ public class Processor {
         }
 
         // Replace
-        return replaceOne(line, searchPosition, replace, searchLen);
+        fromIndexAndFinalLine.setA(searchPosition);
+        fromIndexAndFinalLine.setB(replaceOne(line, searchPosition, replace, searchLen));
     }
 
     private static String replaceOne(String line, int begin, String replace, int searchLen) {
