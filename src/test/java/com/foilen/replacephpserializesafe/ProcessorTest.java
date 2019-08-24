@@ -1,7 +1,7 @@
 /*
     Foilen Replace PHP Serialize Safe
     https://github.com/foilen/replace-php-serialize-safe
-    Copyright (c) 2017 Foilen (http://foilen.com)
+    Copyright (c) 2017-2019 Foilen (http://foilen.com)
 
     The MIT License
     http://opensource.org/licenses/MIT
