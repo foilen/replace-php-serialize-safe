@@ -109,4 +109,19 @@ public class ProcessorTest {
         Assert.assertEquals(expected, actual);
     }
 
+    @Test
+    public void testReplaceLongLine() throws Exception {
+
+        StringBuilder in = new StringBuilder();
+        StringBuilder out = new StringBuilder();
+        for (int i = 0; i < 3000; ++i) {
+            in.append("phpSerialized text: s:73:\"AAAhttp://www.example.com/perfectBBB AAAhttp://www.example.com/perfectBBB\";");
+            out.append("phpSerialized text: s:81:\"AAAhttp://newSite.example.com/perfectBBB AAAhttp://newSite.example.com/perfectBBB\";");
+        }
+
+        String actual = Processor.replace(in.toString(), SEARCH, REPLACE);
+        Assert.assertEquals(out.toString(), actual);
+
+    }
+
 }

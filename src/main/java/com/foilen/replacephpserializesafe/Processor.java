@@ -34,7 +34,7 @@ public class Processor {
             return line;
         }
 
-        // If begining or end, it is not serialized
+        // If beginning or end, it is not serialized
         int searchLen = search.length();
         if (searchPosition == 0 || searchPosition + searchLen == line.length()) {
             return replaceOne(line, searchPosition, replace, searchLen);
@@ -80,14 +80,15 @@ public class Processor {
 
                             if (replaceIt) {
                                 // Replace len
-                                String replacedLine = line.substring(0, sAndColon + 2);
-                                replacedLine += (len + replace.length() - searchLen);
+                                StringBuilder replacedLine = new StringBuilder();
+                                replacedLine.append(line.substring(0, sAndColon + 2));
+                                replacedLine.append((len + replace.length() - searchLen));
 
                                 // Replace text
-                                replacedLine += line.substring(colonAndQuotePos, searchPosition);
-                                replacedLine += replace;
-                                replacedLine += line.substring(searchPosition + searchLen);
-                                return replacedLine;
+                                replacedLine.append(line.substring(colonAndQuotePos, searchPosition));
+                                replacedLine.append(replace);
+                                replacedLine.append(line.substring(searchPosition + searchLen));
+                                return replacedLine.toString();
                             }
                         }
                     }
@@ -100,10 +101,11 @@ public class Processor {
     }
 
     private static String replaceOne(String line, int begin, String replace, int searchLen) {
-        String replacedLine = line.substring(0, begin);
-        replacedLine += replace;
-        replacedLine += line.substring(begin + searchLen);
-        return replacedLine;
+        StringBuilder replacedLine = new StringBuilder();
+        replacedLine.append(line.substring(0, begin));
+        replacedLine.append(replace);
+        replacedLine.append(line.substring(begin + searchLen));
+        return replacedLine.toString();
     }
 
 }
