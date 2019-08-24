@@ -52,5 +52,3 @@ dependencies {
 springBoot {
   mainClass = 'com.foilen.replacephpserializesafe.ReplaceApp'
 }
-
-task wrapper(type: Wrapper) { gradleVersion = '4.1' }
