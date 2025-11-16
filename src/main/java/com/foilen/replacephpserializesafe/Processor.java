@@ -44,9 +44,21 @@ public class Processor {
         int currentPos = 0;
         int searchPos;
         
+        // Cache the last serialization context to avoid redundant backward searches
+        SerializationContext lastContext = null;
+        
         while ((searchPos = line.indexOf(search, currentPos)) != -1) {
-            // Check if this match is within a PHP serialized string
-            SerializationContext context = findSerializationContext(line, searchPos, searchLen);
+            // Check if this match is within the cached serialization context
+            SerializationContext context = null;
+            if (lastContext != null && searchPos < lastContext.endQuotePos) {
+                // Still within the same serialization - skip it as it's already processed
+                currentPos = searchPos + searchLen;
+                continue;
+            } else {
+                // Need to find a new serialization context
+                context = findSerializationContext(line, searchPos, searchLen);
+                lastContext = context;
+            }
             
             if (context != null) {
                 // This is inside a serialized string
@@ -102,11 +114,21 @@ public class Processor {
             return null;
         }
         
+        // Limit backward search to avoid scanning entire line for very long lines
+        // PHP serialized strings larger than 1MB are extremely rare
+        int searchLimit = Math.max(0, searchPosition - 1048576);
+        
         // Search for serialized string pattern before this position
         int lastStartFoundPos = searchPosition;
-        while (lastStartFoundPos > 0) {
+        while (lastStartFoundPos > searchLimit) {
             int colonAndQuotePos = line.lastIndexOf(":\"", lastStartFoundPos - 1);
             int colonAndEscapedQuotePos = line.lastIndexOf(":\\\"", lastStartFoundPos - 1);
+            
+            // Stop if we've searched past our limit
+            if (colonAndQuotePos < searchLimit && colonAndEscapedQuotePos < searchLimit) {
+                break;
+            }
+            
             boolean escapedQuote = false;
             int colonAndQuoteLen = 2;
             
@@ -117,9 +139,9 @@ public class Processor {
             }
             
             lastStartFoundPos = colonAndQuotePos;
-            if (colonAndQuotePos > 0) {
+            if (colonAndQuotePos > searchLimit) {
                 int sAndColon = line.lastIndexOf("s:", colonAndQuotePos);
-                if (sAndColon >= 0) {
+                if (sAndColon >= searchLimit) {
                     // Check if there's a valid integer length
                     Integer len = null;
                     try {
