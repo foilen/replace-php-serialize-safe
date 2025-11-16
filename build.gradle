@@ -1,52 +1,38 @@
-buildscript {
-  repositories {
-    mavenLocal()
-    jcenter()
-  }
-}
 plugins {
-    id 'org.springframework.boot' version '1.5.8.RELEASE'
+    id 'org.springframework.boot' version '3.5.7'
+    id 'io.spring.dependency-management' version '1.1.7'
+    id 'java'
 }
-
-apply plugin: 'eclipse'
-apply plugin: 'java'
-
 
 group = 'com.foilen'
 version = System.getenv('VERSION')?:'master-SNAPSHOT'
 
 repositories {
   mavenLocal()
-  jcenter()
   mavenCentral()
 }
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
-
-eclipse {
-  classpath {
-    downloadSources = true
-    downloadJavadoc = true
-  }
+java {
+  sourceCompatibility = JavaVersion.VERSION_21
+  targetCompatibility = JavaVersion.VERSION_21
 }
 
 dependencies {
 
   // Spring
-  compile "org.springframework:spring-context"
+  implementation "org.springframework:spring-context"
 
   // Misc
-  compile "com.fasterxml.jackson.core:jackson-databind"
-  compile "com.foilen:jl-smalltools:$smalltoolsVersion"
-  compile "com.google.guava:guava:$guavaVersion"
-  compile "org.apache.commons:commons-lang3:$commonsLang3Version"
-  compile "org.slf4j:slf4j-api:$slf4jVersion"
+  implementation "com.fasterxml.jackson.core:jackson-databind"
+  implementation "com.foilen:jl-smalltools-main:$smalltoolsVersion"
+  implementation "com.google.guava:guava:$guavaVersion"
+  implementation "org.apache.commons:commons-lang3:$commonsLang3Version"
+  implementation "org.slf4j:slf4j-api:$slf4jVersion"
 
   // Test
-  testCompile 'junit:junit'
-  testCompile "org.springframework:spring-test"
-  testCompile "org.springframework.boot:spring-boot-starter-test"
+  testImplementation 'junit:junit'
+  testImplementation "org.springframework:spring-test"
+  testImplementation "org.springframework.boot:spring-boot-starter-test"
 }
 
 springBoot {
