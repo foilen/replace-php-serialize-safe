@@ -13,6 +13,5 @@ fi
 RUN_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $RUN_PATH
 
-./step-update-copyrights.sh
 ./step-clean-compile.sh
 ./step-create-docker-image.sh
